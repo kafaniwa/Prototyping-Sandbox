@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class thirdpersonmovement : MonoBehaviour
 {
-    public ParticleSystem dust;
     public CharacterController controller;
     public Transform cam;
     public float turnSmoothTime = 0.1f;
@@ -19,6 +18,9 @@ public class thirdpersonmovement : MonoBehaviour
 
     public float speed = 6f;
 
+    public float speedb = 0f;
+
+    public float boost = 3f;
 
     public float gravity = 14.0f;
 
@@ -26,16 +28,18 @@ public class thirdpersonmovement : MonoBehaviour
 
     private float vertvelocity;
 
+    public float height;
+
+    float heightAboveGround;
+
+    RaycastHit hit;
+
 
     void Start()
     {
         anim = GetComponent<Animator>();
         anim.SetInteger("Condition", 0);
-    }
-
-    void CreateDust()
-    {
-        dust.Play();
+        controller.minMoveDistance = 0;
     }
 
 
@@ -59,28 +63,50 @@ public class thirdpersonmovement : MonoBehaviour
             controller.Move(moveDir.normalized * speed * Time.deltaTime);
         }
 
+        if (Input.GetButtonDown("Run"))
+        {
+            speedb = speed;
+            speed = speed * boost;
+        }
 
+        if (Input.GetButtonUp("Run"))
+        {
+            speed = speedb;
+            speedb = 0f;
+        }
+
+        //**************************************************raycast to floor*********************************************
+        Ray ray = new Ray(transform.position, -Vector3.up);
+
+        Debug.DrawRay(transform.position, Vector3.down * height, Color.red);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.collider.tag == "ground")
+            {
+                heightAboveGround = hit.distance - 1.027f;
+
+                Debug.Log(heightAboveGround);
+            }
+        }
 
         //**************************************************gravity*********************************************
         moveDir.y = vertvelocity; //applies gravity
         controller.Move(moveDir * Time.deltaTime);
 
-        Debug.Log(controller.isGrounded);
+        //Debug.Log(controller.isGrounded);
 
         if (controller.isGrounded)
         {
-            anim.SetBool("isGrounded", true);
             vertvelocity = -gravity * Time.deltaTime;
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetButtonDown("Jump"))
             {
-                anim.SetBool("isGrounded", false);
                 vertvelocity = jumpForce;
             }
         }
         
         else
         {
-            anim.SetBool("isGrounded", false);
             vertvelocity -= gravity * Time.deltaTime;
         }
         
@@ -89,22 +115,39 @@ public class thirdpersonmovement : MonoBehaviour
 
 
         //animation
-        if (!controller.isGrounded && direction.magnitude != 0f)
+        if (direction.magnitude >= 0.1f && controller.isGrounded)
         {
             anim.SetInteger("Condition", 1);
-            CreateDust();
         }
 
-        else if (controller.isGrounded && direction.magnitude == 0f)
+        else if (direction.magnitude == 0f)
         {
             anim.SetInteger("Condition", 0);
         }
         
-        else if (!controller.isGrounded && anim.GetBool("isGrounded") == false)
+        if (!controller.isGrounded && vertvelocity > 0f)
+        {
+            anim.SetInteger("Condition", 3);
+        }
+
+        if (!controller.isGrounded && vertvelocity < 0f && heightAboveGround > 5f)
+        {
+            anim.SetInteger("Condition", 4);
+        }
+
+        if (Input.GetButton("Run"))
         {
             anim.SetInteger("Condition", 2);
-        }
-        
 
+            if (!controller.isGrounded && vertvelocity > 0f)
+            {
+                anim.SetInteger("Condition", 3);
+            }
+
+            if (!controller.isGrounded && vertvelocity < 0f && heightAboveGround > 5f)
+        {
+            anim.SetInteger("Condition", 4);
+        }
+        }
     }
 }
