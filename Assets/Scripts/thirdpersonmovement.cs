@@ -26,7 +26,7 @@ public class thirdpersonmovement : MonoBehaviour
 
     private float jumpForce = 20.0f; //how much force you want when jumping
 
-    private float vertvelocity;
+    public float vertvelocity;
 
     public float height;
 
@@ -63,13 +63,13 @@ public class thirdpersonmovement : MonoBehaviour
             controller.Move(moveDir.normalized * speed * Time.deltaTime);
         }
 
-        if (Input.GetButtonDown("Run"))
+        if (Input.GetButtonDown("Fire1"))
         {
             speedb = speed;
             speed = speed * boost;
         }
 
-        if (Input.GetButtonUp("Run"))
+        if (Input.GetButtonUp("Fire1"))
         {
             speed = speedb;
             speedb = 0f;
@@ -86,7 +86,7 @@ public class thirdpersonmovement : MonoBehaviour
             {
                 heightAboveGround = hit.distance - 1.027f;
 
-                Debug.Log(heightAboveGround);
+                //Debug.Log(heightAboveGround);
             }
         }
 
@@ -135,7 +135,7 @@ public class thirdpersonmovement : MonoBehaviour
             anim.SetInteger("Condition", 4);
         }
 
-        if (Input.GetButton("Run"))
+        if (Input.GetButton("Fire1"))
         {
             anim.SetInteger("Condition", 2);
 
@@ -149,5 +149,34 @@ public class thirdpersonmovement : MonoBehaviour
             anim.SetInteger("Condition", 4);
         }
         }
+    }
+
+    // this script pushes all rigidbodies that the character touches
+    float pushPower = 2.0f;
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Rigidbody body = hit.collider.attachedRigidbody;
+
+        // no rigidbody
+        if (body == null || body.isKinematic)
+        {
+            return;
+        }
+
+        // We dont want to push objects below us
+        if (hit.moveDirection.y < -0.3)
+        {
+            return;
+        }
+
+        // Calculate push direction from move direction,
+        // we only push objects to the sides never up and down
+        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+
+        // If you know how fast your character is trying to move,
+        // then you can also multiply the push velocity by that.
+
+        // Apply the push
+        body.velocity = pushDir * pushPower;
     }
 }

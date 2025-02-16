@@ -1,0 +1,53 @@
+fileFormatVersion: 2
+guid: 27fd5167f54063c4c92f5dab695e1811
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 715df9372183c47e389bb6e19fbc3b52, type: 3}
+  editorImportSettings:
+    generateSecondaryUVSet: 0
+  importSettings:
+    nodeNameMethod: 1
+    animationMethod: 0
+    generateMipMaps: 0
+    texturesReadable: 0
+    defaultMinFilterMode: 9729
+    defaultMagFilterMode: 9729
+    anisotropicFilterLevel: 1
+  instantiationSettings:
+    mask: -1
+    layer: 0
+    skinUpdateWhenOffscreen: 1
+    lightIntensityFactor: 1
+    sceneObjectCreation: 2
+  assetDependencies:
+  - type: 0
+    originalUri: Assets\Meshes\special meshes\rig gltf\Rig with shape keys.bin
+    assetPath: Assets\Meshes\special meshes\rig gltf\Rig with shape keys.bin
+  - type: 1
+    originalUri: Assets\Meshes\special meshes\rig gltf\file5.png
+    assetPath: Assets\Meshes\special meshes\rig gltf\file5.png
+  - type: 1
+    originalUri: Assets\Meshes\special meshes\rig gltf\file3.png
+    assetPath: Assets\Meshes\special meshes\rig gltf\file3.png
+  - type: 1
+    originalUri: Assets\Meshes\special meshes\rig gltf\file1.png
+    assetPath: Assets\Meshes\special meshes\rig gltf\file1.png
+  - type: 1
+    originalUri: Assets\Meshes\special meshes\rig gltf\file7.png
+    assetPath: Assets\Meshes\special meshes\rig gltf\file7.png
+  - type: 1
+    originalUri: Assets\Meshes\special meshes\rig gltf\file9-file9_001.png
+    assetPath: Assets\Meshes\special meshes\rig gltf\file9-file9_001.png
+  - type: 1
+    originalUri: Assets\Meshes\special meshes\rig gltf\front-view-off-office-desk.jpg
+    assetPath: Assets\Meshes\special meshes\rig gltf\front-view-off-office-desk.jpg
+  reportItems:
+  - type: 2
+    code: 20
+    messages:
+    - KHR_materials_specular

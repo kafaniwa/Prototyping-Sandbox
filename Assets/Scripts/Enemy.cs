@@ -18,12 +18,16 @@ public class EnemyAI : MonoBehaviour
     public float gravity = 14.0f;
     public CharacterController controller;
 
+    Animator anim;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform; // find player game object and get transform
         playerInRange = false;
         playerInAttackRange = false;
         attackTimer = 0f;
+        anim = GetComponent<Animator>();
+        anim.SetInteger("Condition", 0);
     }
 
     void Update()
@@ -87,6 +91,12 @@ public class EnemyAI : MonoBehaviour
         {
             transform.LookAt(player.position);
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
+            anim.SetInteger("Condition", 1);
+        }
+
+        else
+        {
+            anim.SetInteger("Condition", 0);
         }
     }
 }
